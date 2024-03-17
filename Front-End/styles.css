@@ -1,0 +1,20 @@
+.brand-logo.left {
+    padding-left: 100px;
+  }
+
+.materialize-textarea {
+    height: 50vh;
+  }
+
+textarea.materialize-textarea {
+    height: 40vh; /* 50% of the viewport height */
+  }
+
+.input-field {
+    margin-bottom: 80px;
+    color: #000000;
+}
+
+h1{
+    font-family: Helvetica;
+}
