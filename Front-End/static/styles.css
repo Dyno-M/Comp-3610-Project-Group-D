@@ -18,3 +18,9 @@ textarea.materialize-textarea {
 h1{
     font-family: Helvetica;
 }
+
+.progress-bar {
+  height: 20px;
+  margin-bottom: 20px;
+  background-color: black;
+}

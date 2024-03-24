@@ -23,6 +23,7 @@
       <div class="col s12">
         <!-- Centered Text Area -->
         <h1 class="center">Emotions</h1>
+        {% block content %}
         <div class="col s12 m6 offset-m3"> <!-- This will take up 6 columns on medium-sized screens and is centered -->
           <div class="input-field">
             <textarea id="textarea1" class="materialize-textarea black-text"></textarea>
@@ -30,14 +31,22 @@
           </div>
           <!-- Submit Button -->
           <div class="center">
-            <button class="btn waves-effect waves-light black" type="submit" name="action">Submit</button>
+            <button class="btn waves-effect waves-light black" type="submit" name="action" onclick="redirectToEmotions()">Submit</button>
           </div>
         </div>
+        {% endblock %}
       </div>
     </div>
   </div>
+  
 
   <!-- Import Materialize JavaScript -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+  <!-- JavaScript for redirecting to "/emotions" route -->
+  <script>
+    function redirectToEmotions() {
+      window.location.href = "/emotions";
+    }
+  </script>
 </body>
 </html>

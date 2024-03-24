@@ -1,0 +1,61 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+      <div class="col s12">
+        <h4 class="center">Lorem Ipsum</h4>
+        <!-- Progress Bars -->
+        <h5>Sadness <span id="sadnessPercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate indigo" style="width: 0%" data-label="(0) Sadness" id="sadnessBar"></div>
+        </div>
+        <h5>Joy <span id="joyPercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate yellow lighten-1" style="width: 0%" data-label="(1) Joy" id="joyBar"></div>
+        </div>
+        <h5>Love <span id="lovePercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate pink lighten-1" style="width: 0%" data-label="(2) Love" id="loveBar"></div>
+        </div>
+        <h5>Anger <span id="angerPercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate red lighten-1" style="width: 0%" data-label="(3) Anger" id="angerBar"></div>
+        </div>
+        <h5>Fear <span id="fearPercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate green lighten-1" style="width: 0%" data-label="(4) Fear" id="fearBar"></div>
+        </div>
+        <h5>Surprise <span id="surprisePercentage"></span></h5>
+        <div class="progress">
+            <div class="determinate purple lighten-1" style="width: 0%" data-label="(5) Surprise" id="surpriseBar"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Submit Button for "/" Route -->
+<div class="center">
+  <form action="/" method="GET">
+    <button class="btn waves-effect waves-light black" type="submit">Go to Home</button>
+  </form>
+</div>
+
+<script>
+  // Generate random percentages for each emotion
+  document.getElementById("sadnessPercentage").textContent = Math.floor(Math.random() * 101) + "%";
+  document.getElementById("joyPercentage").textContent = Math.floor(Math.random() * 101) + "%";
+  document.getElementById("lovePercentage").textContent = Math.floor(Math.random() * 101) + "%";
+  document.getElementById("angerPercentage").textContent = Math.floor(Math.random() * 101) + "%";
+  document.getElementById("fearPercentage").textContent = Math.floor(Math.random() * 101) + "%";
+  document.getElementById("surprisePercentage").textContent = Math.floor(Math.random() * 101) + "%";
+
+  // Update progress bars with random percentages
+  document.getElementById("sadnessBar").style.width = document.getElementById("sadnessPercentage").textContent;
+  document.getElementById("joyBar").style.width = document.getElementById("joyPercentage").textContent;
+  document.getElementById("loveBar").style.width = document.getElementById("lovePercentage").textContent;
+  document.getElementById("angerBar").style.width = document.getElementById("angerPercentage").textContent;
+  document.getElementById("fearBar").style.width = document.getElementById("fearPercentage").textContent;
+  document.getElementById("surpriseBar").style.width = document.getElementById("surprisePercentage").textContent;
+</script>
+
+{% endblock %}
