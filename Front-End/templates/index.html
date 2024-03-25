@@ -48,5 +48,27 @@
       window.location.href = "/emotions";
     }
   </script>
+  <script>
+    function sendData() {
+      // Get input value from textarea
+      var inputText = document.getElementById('inputJson').value;
+
+      // Send input data to Flask server using AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/classify', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          // Handle successful response
+          console.log(xhr.responseText);
+        } else {
+          // Handle error
+          console.error('Request failed. Error code: ' + xhr.status);
+        }
+      };
+      xhr.send(JSON.stringify({input: inputText}));
+      window.location.href = "/classify";
+    }
+  </script>
 </body>
 </html>
