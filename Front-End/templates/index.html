@@ -23,17 +23,22 @@
       <div class="col s12">
         <!-- Centered Text Area -->
         <h1 class="center">Emotions</h1>
+        <form action="/process_text" method="post">
+          <div style="width: 100%; text-align: center;">
+            <div style="width: 50%; margin: 0 auto;">
+              <!-- Textarea Input -->
+              <div>
+                <textarea id="textarea1" name="user_input" style="width: 100%;" class="black-text"></textarea>
+                <label for="textarea1" style="text-align: center;">Enter your text here</label>
+              </div>
+              <!-- Submit Button -->
+              <div style="text-align: center;">
+                <button style="width: 100%;" class="btn waves-effect waves-light black" type="submit" name="action", value="submit">Submit</button>
+              </div>
+            </div>
+          </div>
+        </form>        
         {% block content %}
-        <div class="col s12 m6 offset-m3"> <!-- This will take up 6 columns on medium-sized screens and is centered -->
-          <div class="input-field">
-            <textarea id="textarea1" class="materialize-textarea black-text"></textarea>
-            <label for="textarea1" class="center">Enter your text here</label>
-          </div>
-          <!-- Submit Button -->
-          <div class="center">
-            <button class="btn waves-effect waves-light black" type="submit" name="action" onclick="redirectToEmotions()">Submit</button>
-          </div>
-        </div>
         {% endblock %}
       </div>
     </div>
@@ -46,6 +51,28 @@
   <script>
     function redirectToEmotions() {
       window.location.href = "/emotions";
+    }
+  </script>
+  <script>
+    function sendData() {
+      // Get input value from textarea
+      var inputText = document.getElementById('inputJson').value;
+
+      // Send input data to Flask server using AJAX
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/classify', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+      xhr.onload = function () {
+        if (xhr.status == 200) {
+          // Handle successful response
+          console.log(xhr.responseText);
+        } else {
+          // Handle error
+          console.error('Request failed. Error code: ' + xhr.status);
+        }
+      };
+      xhr.send(JSON.stringify({input: inputText}));
+      window.location.href = "/classify";
     }
   </script>
 </body>
