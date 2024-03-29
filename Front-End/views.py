@@ -25,8 +25,8 @@ def process_text():
     if request.method == 'POST':
         text = request.form['user_input']
         orgtext = text
-        loaded_model = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/logreg_tfidf.joblib')
-        loaded_vectr = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/tfidf_for_logreg.joblib')
+        loaded_model = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/logreg_tfidf_ng.joblib')
+        loaded_vectr = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/tfidf_for_logreg_ng.joblib')
 
         text = ' '.join(text.split())   # Remove additional white spaces
         text = re.sub(r'http\S+', '', text) # Remove links
