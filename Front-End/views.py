@@ -1,13 +1,12 @@
-from flask import Blueprint, render_template
-import joblib
-import pandas as pd
-import numpy as np
-import random
 import re
 from bs4 import BeautifulSoup
+
 import string
 from string import punctuation
-from flask import Flask, jsonify, request
+
+from flask import Flask, jsonify, request, Blueprint, render_template
+
+import joblib
 from joblib import load
 
 views = Blueprint(__name__, "views")
