@@ -1,15 +1,14 @@
 from flask import Blueprint, render_template
 import joblib
-
+import pandas as pd
+import numpy as np
+import random
 import re
 from bs4 import BeautifulSoup
 import string
 from string import punctuation
-from sklearn.feature_extraction.text import TfidfVectorizer
-import nltk
-from nltk.corpus import stopwords
-from sklearn.linear_model import LogisticRegression
-from flask import Flask, request
+from flask import Flask, jsonify, request
+from joblib import load
 
 views = Blueprint(__name__, "views")
 
@@ -18,50 +17,42 @@ views = Blueprint(__name__, "views")
 def home():
     return render_template("index.html")
 
-@views.route("/emotions")
+@views.route("/emotions", methods=['POST'])
 def emotions_view():
     return render_template("emotions.html")
 
-# Load the classifier
-classifier = joblib.load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/logreg_tfidf.joblib')
+@views.route('/process_text', methods=['POST'])
+def process_text():
+    if request.method == 'POST':
+        text = request.form['user_input']
+        orgtext = text
+        loaded_model = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/logreg_tfidf.joblib')
+        loaded_vectr = load('/workspace/Comp-3610-Project-Ceejmo/Front-End/static/tfidf_for_logreg.joblib')
 
-@views.route('/classify')
-def classify():
-    data = request.get_json()
-    input_text = data['input']
-    try:
-        data = request.json
-        # Assuming your classifier expects a specific format of input
-        input_data = preprocess_input(data)
-        # Perform prediction
-        probabilities = classifier.predict_proba([input_data])[0]
-        # Convert probabilities to a tuple
-        probabilities_tuple = tuple(probabilities.tolist())
-        # Render the 'emotions.html' template with the probabilities tuple
-        return render_template('emotions.html', probabilities=probabilities_tuple)
-    except Exception as e:
-        # Return error message if an exception occurs
-        return jsonify({'error': str(e)}), 400
+        text = ' '.join(text.split())   # Remove additional white spaces
+        text = re.sub(r'http\S+', '', text) # Remove links
+        text = text.translate(str.maketrans('', '', punctuation)) # Remove punctuation
+        text = BeautifulSoup(text, "html.parser").get_text() # Remove HTML tags
+        text.lower() # Convert all text to lowercase
+        
+        words_to_remove = ['feeling', 'feel', 'like', 'im'] # Remove common words
+        for word in words_to_remove:
+                pattern = r'\b{}\b'.format(re.escape(word))
+                text = re.sub(pattern, '', text)
+        
+        text_trans = loaded_vectr.transform([text])
+        pred_probs = loaded_model.predict_proba(text_trans)
 
-def remove_word_from_string(word, string):
-    # Construct a regular expression pattern to match the word
-    pattern = r'\b{}\b'.format(re.escape(word))
-    # Use re.sub() to replace the matched word with an empty string
-    return re.sub(pattern, '', string)
+        labels = ['sadness', 'joy', 'love', 'anger', 'fear', 'surprise']
 
+        # Create a dictionary to store the probabilities with labels
+        probs_dict = {}
 
-def preprocess_input(text):
-    text = ' '.join(text.split())   # Remove additional white spaces
-    text = re.sub(r'http\S+', '', text) # Remove links
-    text = text.translate(str.maketrans('', '', punctuation)) # Remove punctuation
-    text = BeautifulSoup(text, "html.parser").get_text() # Remove HTML tags
-    text.lower() # Convert all text to lowercase
-    words_to_remove = ['feeling', 'feel', 'like', 'im']
-    for word in words_to_remove:
-            text = remove_word_from_string(word, text)
-    tfidf = TfidfVectorizer(stop_words = 'english')
-    text_trans = tfidf.fit_transform(text)
-    return text_trans
+        # Iterate over the probabilities array and labels simultaneously
+        for label, prob in zip(labels, pred_probs[0]):
+            probs_dict[label] = round(prob*100,5)
+
+        return render_template("emotions.html", probs_dict=probs_dict, orgtext=orgtext)
 
 if __name__ == "__main__":
     app.run(debug=True)
