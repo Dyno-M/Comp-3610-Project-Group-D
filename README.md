@@ -1,6 +1,5 @@
-# Comp-3610-Project-Ceejmo
-**GROUP D** <br>
-**TOPIC:** Emotional Sentiment Analysis <br>
+# Comp-3610-Project-Group-D
+**TOPIC:** Multi-Class Emotional Sentiment Analysis <br>
 
 **PROBLEM STATEMENT:** <br>
 The surge in digital communication, encompassing instant messaging, emails, and social media, has become increasingly prevalent. Yet, this medium often overlooks crucial aspects of non-verbal communication, such as intonation, body language, and cadence. The absence of these cues leads to frequent misinterpretations or misconstruals of text, as contextual nuances and individual speech idiosyncrasies are lost. This challenge is prominently evident in online interactions on social media, particularly when users share sarcastic messages that can be easily misunderstood by others, emphasising the limitations of solely text-based communication.
